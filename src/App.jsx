@@ -2,7 +2,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import schoolLogo from './assets/kando.jpg'
 import { Route, Routes } from 'react-router-dom'
-import { Items } from './Items'
+import { Items } from './Items.jsx'
+import { OneItem } from './OneItem.jsx'
 import './App.css'
 
 const Index = () => (
@@ -36,6 +37,7 @@ export const App = () => {
       <Routes>
         <Route path='/items' element={<Items/>}></Route>
         <Route path='/' element={<Index/>}></Route>
+        <Route path='/items/:itemId' element={<OneItem/>}></Route>
       </Routes>
     </>
   )

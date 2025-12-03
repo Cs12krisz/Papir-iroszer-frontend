@@ -1,48 +1,40 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useParams, Link } from "react-router-dom"
 
-const GetItems = ({items}) => {
 
-let elemek = [];
-
-for (let key in items.data) {
-    let item = items.data[key]
-    elemek.push(item)
-    
-    }
-    
-    return(
+const OneItemCard = ({item}) => (
     <>
     <div className="card-container">
-        {elemek.map((item, index) => (
-            <div className="card" key={index}>
-                <div className="card-body">
-                    <h1>
-                        {item.name}
-                    </h1>
-                    <h2>
-                        {item.price} Ft
-                    </h2>
-                    <br/>
-                    <Link to="/items/:itemId">Részletek</Link>
-                </div>
+        <div className="card">
+            <div className="card-body">
+                <h1>
+                    {item.name}
+                </h1>
+                <h2>
+                    {item.price} Ft
+                </h2>
+                <br/>
+                <Link to="/items">Vissza</Link>
             </div>
-        ))}
+        </div>
     </div>
     </>
-    )
-};
+);
 
-export function Items() {
-    const [adatok, setAdatok] = useState([])
+
+
+export const OneItem = () => {
+    const [adat, setAdat] = useState()
+    const params = useParams()
+    const id = params.itemId;
 
     useEffect(() => {
-        fetch("http://192.168.50.49:3005/items")
+        fetch(`192.168.50.49:3005/items/${id}`)
         .then((response) => (response.ok ? response.json() : []))
-        .then((tartalom) => setAdatok(tartalom))
-    }, []);
+        .then((tartalom) => setAdat(tartalom))
+    }, [id]);
 
-    setAdatok([
+    setAdat([
     {
         "id": "a12",
         "name": "Ceruza",
@@ -804,11 +796,12 @@ export function Items() {
         "price": 2290
     }
 ])
+
+    
     return(
     <>
-        <h1>Eszközök</h1>
-        <GetItems items={adatok}/>
+        <h1>Egy eszköz</h1>
+        <OneItemCard item={adat} />
     </>
     );
 }
-    
